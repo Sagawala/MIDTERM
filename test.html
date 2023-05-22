@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>document</title>
+  
+</head>
+<body>
+  <h2></h2>
+  <form>
+    <label for="entryInput">Add Entry:</label>
+    <input type="text" id="entryInput">
+    <button type="button" onclick="addEntry()">AddEntry</button>
+    <button type="button" onclick="showSummary()">Summary</button>
+  </form>
+  <h3>Entries:</h3>
+  <div id="summary"></div>
+</body>
+<script type="text/javascript">
+    
+    var entries = [];
+
+    
+    function addEntry() {
+      var entry = document.getElementById('entryInput').value.trim();
+      if (entry === '') {
+        alert('Invalid entry');
+        return;
+      }
+
+      var entryComponents = entry.split(' ');
+      if (entryComponents.length !== 3) {
+        alert('Invalid entry');
+        return;
+      }
+
+      var directoryId = entryComponents[0];
+      var description = entryComponents[1];
+      var duration = entryComponents[2];
+
+      entries.push({ directoryId: directoryId, description: description, duration: duration });
+      document.getElementById('entryInput').value = '';
+    }
+
+  
+    function showSummary() {
+      var summary = document.getElementById('summary');
+      summary.innerHTML = '';
+
+      var numEntries = entries.length;
+      var sortedEntries = entries.slice().sort(function(a, b) {
+        return b.duration - a.duration;
+      });
+
+      summary.innerHTML += 'Number of Entries: ' + numEntries + '<br>';
+
+      for (var i = 0; i < sortedEntries.length; i++) {
+        var entry = sortedEntries[i];
+        var entryText = entry.directoryId + entry.description + entry.duration;
+        summary.innerHTML += entryText + '<br>';
+      }
+    }
+  </script>
+</html>
